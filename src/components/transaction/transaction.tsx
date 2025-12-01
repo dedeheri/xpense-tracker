@@ -4,6 +4,7 @@ import TransactionHeading from "./transaction-heading";
 import TransactionTable from "./transaction-table";
 import { usePathname } from "next/navigation";
 import { TransactionChart } from "./transaction-chart";
+import { Suspense } from "react";
 
 const Transaction = () => {
   const pathName = usePathname();
@@ -11,9 +12,9 @@ const Transaction = () => {
     <section className="space-y-8">
       <TransactionHeading />
 
-      <section>
+      <Suspense>
         {pathName === "/" ? <TransactionTable /> : <TransactionChart />}
-      </section>
+      </Suspense>
     </section>
   );
 };
