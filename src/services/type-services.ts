@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 

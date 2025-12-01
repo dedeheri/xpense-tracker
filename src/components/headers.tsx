@@ -3,7 +3,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import SwitchDarkMode from "./switch-dark-mode";
-import { LogOut, Palette, Settings } from "lucide-react";
+import { LogOut, Palette } from "lucide-react";
 
 import {
   DropdownMenu,

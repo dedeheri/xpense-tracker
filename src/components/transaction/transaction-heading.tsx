@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { ChartColumnIcon, PlusIcon, Table } from "lucide-react";
+import { ChartColumnIcon, Table } from "lucide-react";
 import FilterCategory from "../filter/filter-category";
 import FilterType from "../filter/filter-type";
 import { usePathname, useSearchParams } from "next/navigation";
