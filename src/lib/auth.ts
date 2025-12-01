@@ -35,5 +35,5 @@ export const options: NextAuthOptions = {
   },
 };
 
-export const handlers = NextAuth(options);
+export const handler = NextAuth(options);
 export const authSession = () => getServerSession(options);
