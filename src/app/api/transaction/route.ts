@@ -1,7 +1,7 @@
 "use server";
 
 import { NextResponse, NextRequest } from "next/server";
-import { prisma } from "@/lib/prisma";
+
 import { sessions } from "@/lib/session";
 import { handleErrorPrisma } from "@/utils/prisma-error-handler";
 import categoryServices from "@/services/category-services";
@@ -36,9 +36,9 @@ export const POST = async (request: NextRequest) => {
         data: {
           userId: userId!,
           amount: parsedAmount,
-          categoryId,
-          typeId,
-          note,
+          categoryId: categoryId,
+          typeId: typeId,
+          note: note,
         },
       }),
       await categoryServices.update({
@@ -54,7 +54,8 @@ export const POST = async (request: NextRequest) => {
     ]);
 
     //  summaries
-    const { title: typeTitle } = await typeServices.findUniqueType(typeId, {
+    const type = await typeServices.findUniqueType({
+      where: { id: typeId },
       select: { title: true },
     });
 
@@ -62,7 +63,7 @@ export const POST = async (request: NextRequest) => {
       await summariesService.findMany({
         where: {
           userId: userId!,
-          type: typeTitle,
+          type: type?.title,
         },
         orderBy: { createdAt: "desc" },
         take: 2,
@@ -97,7 +98,7 @@ export const POST = async (request: NextRequest) => {
 
     const incomeExpenseData = {
       userId: userId!,
-      type: typeTitle,
+      type: type?.title || "",
       amount: newTotalAmount,
       increase: increaseStatus,
       percent: newPercent,
@@ -127,9 +128,9 @@ export const POST = async (request: NextRequest) => {
     let latestIncome = 0;
     let latestExpense = 0;
 
-    if (typeTitle === "Income") {
+    if (type?.title === "Income") {
       latestIncome = currentTypeAmountSaving + parsedAmount;
-    } else if (typeTitle === "Expense") {
+    } else if (type?.title === "Expense") {
       latestExpense = currentTypeAmountSaving - parsedAmount;
     }
 
@@ -145,7 +146,7 @@ export const POST = async (request: NextRequest) => {
     );
 
     const savingUpdateData = {
-      amount: typeTitle === "Income" ? latestIncome : latestExpense,
+      amount: type?.title === "Income" ? latestIncome : latestExpense,
       increase: increaseStatusSaving,
       percent: savingPercent,
     };
@@ -177,9 +178,8 @@ export const POST = async (request: NextRequest) => {
 };
 
 export const GET = async (request: NextRequest) => {
-  const { userId } = await sessions();
-
   try {
+    const { userId } = await sessions();
     const searchParams = request.nextUrl.searchParams;
 
     const categoryParams = searchParams.get("category");
@@ -198,8 +198,8 @@ export const GET = async (request: NextRequest) => {
 
     const whereClause: {
       userId: string;
-      category?: { title?: string };
-      type?: { title?: string };
+      category?: { title: string };
+      type?: { title: string };
     } = {
       userId: userId!,
     };
@@ -212,14 +212,15 @@ export const GET = async (request: NextRequest) => {
       whereClause.type = { title: typeParams };
     }
 
-    const transactions = await prisma.transaction.findMany({
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const transactions = (await transactionServices.findMany({
       where: whereClause,
       include: {
         category: true,
         type: true,
       },
       orderBy: { createdAt: "desc" },
-    });
+    })) as any[];
 
     const groupedTransactions = groupTransactionsByMonth(transactions);
     const totalTransaction = groupedTransactions.length;

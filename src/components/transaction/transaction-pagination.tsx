@@ -3,9 +3,7 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
@@ -35,18 +33,6 @@ const TransactionPagination: React.FC<TransactionPaginationProps> = ({
             />
           </PaginationItem>
         )}
-
-        {/* {[...Array(totalItems)].map((_: number, index) => (
-          <PaginationItem key={index}>
-            <PaginationLink
-              className="cursor-pointer"
-              isActive={currentPage === index + 1}
-              onClick={() => handleSetQuery("page", (index + 1).toString())}
-            >
-              {index + 1}
-            </PaginationLink>
-          </PaginationItem>
-        ))} */}
 
         {currentPage < totalItems && (
           <PaginationItem>

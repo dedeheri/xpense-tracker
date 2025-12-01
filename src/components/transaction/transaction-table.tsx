@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import numberFormatter from "@/lib/number-formatter";
-import { ArrowDownLeft, ArrowDownRight, Repeat2 } from "lucide-react";
 import moment from "moment";
 import TransactionPagination from "./transaction-pagination";
 import { useSearchParams } from "next/navigation";
@@ -35,18 +34,6 @@ const TransactionTable = () => {
     transactionsMessage,
     pages,
   } = useTransaction(params);
-
-  const typeIconTranscation = (typeIcon: string) => {
-    if (typeIcon === "Income") {
-      return <ArrowDownRight className="text-green-500 size-4 rotate-180" />;
-    }
-
-    if (typeIcon === "Expense") {
-      return <ArrowDownLeft className="text-red-500 size-4" />;
-    }
-
-    return <Repeat2 className="text-yellow-500 size-4" />;
-  };
 
   const typeIconInOrOut = (typeIcon: string, amount: number) => {
     if (typeIcon === "Income") {
@@ -103,20 +90,20 @@ const TransactionTable = () => {
                 {transaction?.transactions?.map((item) => (
                   <TableRow key={item?.id}>
                     <TableCell className="font-medium capitalize p-0  w-52">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center">
                         <p>{moment(item?.createdAt).format("llll")}</p>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium capitalize">
-                      <div className="flex items-center gap-3">
-                        {typeIconTranscation(item?.type.title)}
-                        <p>{item.type.title}</p>
+                      <div className="flex items-center gap-2">
+                        <p>{item?.type?.icon}</p>
+                        <p>{item?.type?.title}</p>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium w-40">
-                      <div className="flex items-center gap-3">
-                        <p>{item.category.icon}</p>
-                        <p>{item.category.title}</p>
+                      <div className="flex items-center gap-2">
+                        <p>{item.category?.icon}</p>
+                        <p>{item.category?.title}</p>
                       </div>
                     </TableCell>
 

@@ -9,6 +9,7 @@ import FilterCategory from "../filter/filter-category";
 import FilterType from "../filter/filter-type";
 import { usePathname, useSearchParams } from "next/navigation";
 import Tooltips from "../tooltips";
+import AddTransactionSheet from "../add/add-transaction-sheet";
 
 const TransactionHeading = () => {
   const pathName = usePathname();
@@ -43,7 +44,7 @@ const TransactionHeading = () => {
           >
             <Button
               className="rounded-full cursor-pointer h-9"
-              variant={pathName === "/" ? "default" : "secondary"}
+              variant={pathName === "/" ? "secondary" : "outline"}
             >
               <Table className="size-4" />
               <p className="font-semibold">Table</p>
@@ -60,7 +61,7 @@ const TransactionHeading = () => {
           >
             <Button
               className="rounded-full cursor-pointer h-9"
-              variant={pathName === `/chart` ? "default" : "secondary"}
+              variant={pathName === `/chart` ? "secondary" : "outline"}
             >
               <ChartColumnIcon className="size-4" />
               <p className="font-semibold">Chart</p>
@@ -73,14 +74,7 @@ const TransactionHeading = () => {
         <FilterType />
         <FilterCategory />
 
-        <Tooltips label="Add">
-          <Link href="/add">
-            <Button className="rounded-full cursor-pointer h-9 w-9 md:w-auto">
-              <PlusIcon />
-              <p className="hidden md:block">Add</p>
-            </Button>
-          </Link>
-        </Tooltips>
+        <AddTransactionSheet />
       </div>
     </section>
   );

@@ -8,7 +8,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 
@@ -70,9 +69,10 @@ model VerificationToken {
 model Category {
     id            String   @id @default(cuid())
     userId        String   @map("user_id")
-    title         String
+    title         String   @unique
     icon          String
     count         Float    @default(0)
+    transactions  Transaction[]
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
 
@@ -81,12 +81,13 @@ model Category {
 
 
 model Type {
-    id        String   @id @default(cuid())
-    icon      String
-    userId    String   @map("user_id")
-    title     String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id           String   @id @default(cuid())
+    icon         String
+    userId       String   @map("user_id")
+    title        String   @unique
+    transactions Transaction[]
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 
     @@map(name: "types")
 }
@@ -109,14 +110,16 @@ model Summaries {
 
 
 model Transaction {
-  id          String   @id @default(cuid()) 
-  userId      String   @map("user_id")
+  id          String    @id @default(cuid()) 
+  userId      String    @map("user_id")
   amount      Int 
-  note        String? 
-  type        String   
-  category    String   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  note        String?  
+  typeId      String    @map("type_id")
+  categoryId  String    @map("category_id")
+  type        Type      @relation(fields: [typeId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   
   @@map("transactions")

@@ -1,7 +1,5 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-
 import {
   AlertDialog,
   AlertDialogContent,
@@ -11,17 +9,18 @@ import {
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { useState } from "react";
-import { Input } from "./ui/input";
-import { LoaderCircle, Mail } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import { signIn, useSession } from "next-auth/react";
 
 type ProtectdProps = {
   children: React.ReactNode;
 };
-
 const Protected = ({ children }: ProtectdProps) => {
-  const { status } = useSession();
+  const session = useSession();
+  console.log("session", session);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isEmail, setIsEmail] = useState<string>("");
+
+  // console.log("status", status);
 
   const handleSignIn = async (provider: string, isEmail?: string) => {
     try {
@@ -39,7 +38,7 @@ const Protected = ({ children }: ProtectdProps) => {
 
   return (
     <section>
-      <AlertDialog open={status === "unauthenticated"}>
+      <AlertDialog open={session.status === "unauthenticated"}>
         <AlertDialogContent className="w-96">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-2xl text-center">

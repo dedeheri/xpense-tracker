@@ -1,10 +1,10 @@
 "use server";
 
 import { NextResponse, NextRequest } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { sessions } from "@/lib/session";
 import { handleErrorPrisma } from "@/utils/prisma-error-handler";
 import { aggregateTransactionsByDay } from "@/utils/chart-data";
+import transactionService from "@/services/transaction-services";
 
 export const GET = async (request: NextRequest) => {
   const { userId } = await sessions();
@@ -24,16 +24,15 @@ export const GET = async (request: NextRequest) => {
       whereClause.category = { title: categoryParams };
     }
 
-    const [transactions] = await prisma.$transaction([
-      prisma.transaction.findMany({
-        where: whereClause,
-        include: {
-          category: true,
-          type: true,
-        },
-        orderBy: { createdAt: "desc" },
-      }),
-    ]);
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const transactions = (await transactionService.findMany({
+      where: whereClause,
+      include: {
+        category: true,
+        type: true,
+      },
+      orderBy: { createdAt: "desc" },
+    })) as any[];
 
     const results = aggregateTransactionsByDay(transactions);
 

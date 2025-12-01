@@ -4,8 +4,8 @@ const globalPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-const connection = globalPrisma?.prisma ?? new PrismaClient();
+const prisma = globalPrisma?.prisma ?? new PrismaClient();
 
-if (process.env.NODE_ENV !== "production") globalPrisma.prisma = connection;
+if (process.env.NODE_ENV !== "production") globalPrisma.prisma = prisma;
 
-export const prisma = connection;
+export default prisma;

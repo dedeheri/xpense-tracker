@@ -1,4 +1,4 @@
-import { authSession } from "@/app/api/auth/[...nextauth]/route";
+import { authSession } from "./auth";
 
 interface ISessions {
   name?: string | null;
@@ -11,9 +11,9 @@ export const sessions = async (): Promise<ISessions> => {
   const session = await authSession();
 
   return {
-    name: session?.user?.name,
-    email: session?.user?.email,
-    image: session?.user?.image,
-    userId: session?.user?.sub,
+    name: session?.user?.name || "",
+    email: session?.user?.email || "",
+    image: session?.user?.image || "",
+    userId: session?.user?.sub || "",
   };
 };

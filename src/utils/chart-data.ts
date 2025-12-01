@@ -1,4 +1,4 @@
-import { ITransaction, ITransactions } from "@/types/transaction.types";
+import { ITransactions } from "@/types/transaction.types";
 
 // Output yang dikelompokkan per tanggal
 interface AggregatedOutput {
@@ -41,7 +41,6 @@ export function aggregateTransactionsByDay(
     const dateObject = new Date(transaction.createdAt);
 
     // Mengambil tanggal, bulan, dan tahun
-    const day = dateObject.getDate();
     const month = dateObject.getMonth() + 1; // getMonth() mengembalikan 0-11
     const year = dateObject.getFullYear();
 

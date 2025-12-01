@@ -18,7 +18,7 @@ export const useType = () => {
       typesLoading: isLoading,
       typesMutate: mutate,
     }),
-    [data?.data, isLoading, error, mutate]
+    [data, isLoading, error, mutate]
   );
 
   return memorized;

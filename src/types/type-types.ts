@@ -1,6 +1,3 @@
-import { KeyedMutator } from "swr";
-import { IFetcherError } from "./fetcher-type";
-
 export interface TypeItem {
   id: string; // Example property
   title: string; // Example property

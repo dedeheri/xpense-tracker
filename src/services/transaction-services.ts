@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 const create = async (options: Prisma.TransactionCreateArgs) => {
@@ -13,11 +13,10 @@ const destroy = async (options: Prisma.TransactionDeleteArgs) => {
   return results;
 };
 
-const findMany = async (options: Prisma.TransactionFindManyArgs) => {
-  const results = await prisma.transaction.findMany(options);
+const findMany = async (options?: Prisma.TransactionFindManyArgs) => {
+  const results = await prisma.transaction.findMany({ ...options });
   return results;
 };
 
-const update = async (id: string, body: any) => {};
-
-export default { create, destroy, update, findMany };
+const transactionService = { create, findMany, destroy };
+export default transactionService;

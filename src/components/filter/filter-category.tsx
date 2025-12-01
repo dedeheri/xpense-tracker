@@ -21,7 +21,7 @@ const FilterCategory = () => {
       <Tooltips label="Category">
         <PopoverTrigger asChild>
           <Button
-            variant="secondary"
+            variant="outline"
             className="rounded-full cursor-pointer h-9 w-9 md:w-auto"
           >
             <SlidersHorizontal />

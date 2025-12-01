@@ -25,10 +25,10 @@ const LoadingAndError = ({
   message = "",
   children,
 }: LoadingProps) => {
-  const { status } = useSession();
+  // const { status } = useSession();
 
   // loading
-  if (status === "unauthenticated" || isLoading) {
+  if (isLoading) {
     return (
       <section>
         <div className={clsx("space-y-2", className)}>

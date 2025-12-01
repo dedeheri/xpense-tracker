@@ -26,7 +26,7 @@ const FilterType = () => {
       <Tooltips label="Type">
         <PopoverTrigger asChild>
           <Button
-            variant="secondary"
+            variant="outline"
             className="rounded-full cursor-pointer h-9 w-9 md:w-auto"
           >
             <Type />
@@ -49,7 +49,7 @@ const FilterType = () => {
           <LoadingAndError
             isLoading={typesLoading}
             isError={typesIsError}
-            message={typesMessage}
+            message={typesMessage?.error}
             height="h-8"
             width="w-full"
             className="px-2 py-2"

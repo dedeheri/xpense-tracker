@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 const createOne = async (options: Prisma.SummariesCreateArgs) => {
@@ -28,4 +28,6 @@ const updateOne = async (options: Prisma.SummariesUpdateArgs) => {
 
   return results;
 };
-export default { createOne, findMany, findFirst, updateOne };
+
+const summariesServices = { createOne, findMany, findFirst, updateOne };
+export default summariesServices;

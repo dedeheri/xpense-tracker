@@ -79,14 +79,6 @@ export const useSummariesTransaction = () => {
     [data?.data, isLoading, error, mutate]
   );
 
-  const result = {
-    summaries: data?.data,
-    summariesMessage: error?.message,
-    summariesIsError: error?.isError,
-    summariesLoading: isLoading,
-    summariesMutate: mutate,
-  };
-
   return memoized;
 };
 

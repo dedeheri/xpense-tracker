@@ -1,11 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-export const handleErrorPrisma = (
-  error: unknown,
-  message?: string,
-  status?: number
-): NextResponse => {
+export const handleErrorPrisma = (error: unknown): NextResponse => {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     switch (error.code) {
       // Melanggar batasan unik
@@ -66,9 +62,8 @@ export const handleErrorPrisma = (
   return NextResponse.json(
     {
       error: true,
-      success: false,
-      message: message,
+      message: "An unexpected error occurred.",
     },
-    { status: status }
+    { status: 500 }
   );
 };

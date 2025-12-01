@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 const create = async (options: Prisma.CategoryCreateArgs) => {
@@ -36,4 +36,5 @@ const update = async (options: Prisma.CategoryUpdateArgs) => {
   return results;
 };
 
-export default { update, create, findMany, destroy, findFirst };
+const categoryService = { update, create, findMany, destroy, findFirst };
+export default categoryService;

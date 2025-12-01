@@ -1,19 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-type FindUniqueTypeArgs = Prisma.TypeFindUniqueArgs;
-
-const findUniqueType = async (
-  id: string,
-  options?: Omit<FindUniqueTypeArgs, "where">
-) => {
-  const reults = await prisma.type.findUniqueOrThrow({
-    where: { id: id },
-    ...options,
-  });
-
+const findUniqueType = async (options: Prisma.TypeFindUniqueArgs) => {
+  const reults = await prisma.type.findUnique({ ...options });
   return reults;
 };
 
@@ -33,4 +24,5 @@ const create = async (options: Prisma.TypeCreateArgs) => {
   return result;
 };
 
-export default { findUniqueType, findFirst, findMany, create };
+const typeServices = { findUniqueType, findFirst, findMany, create };
+export default typeServices;

@@ -9,28 +9,6 @@ interface GroupedTransaction {
   };
 }
 
-// interface MonthlySummaryData {
-//   groupDate: string; // Format 'YYYY-MM'
-//   totalIncome: number;
-//   totalExpense: number;
-//   transactions: ITransactions[];
-// }
-
-function getDayName(adjustedDayIndex: number) {
-  // Array nama hari sesuai urutan: 0=Senin, 6=Minggu
-  const dayNames = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-  // Pastikan indeks berada dalam rentang 0-6
-  return dayNames[adjustedDayIndex];
-}
-
 function getMonthName(monthIndex: number) {
   // Array nama hari sesuai urutan: 0=Senin, 6=Minggu
   const monthNames = [

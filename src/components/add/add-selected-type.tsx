@@ -22,7 +22,7 @@ const AddSelectedType = ({ setFormData }: AddSelectedTypeProps) => {
   const handleOnChange = (id: string) => {
     setFormData((prev) => ({
       ...prev,
-      categoryId: id,
+      typeId: id,
     }));
   };
 
