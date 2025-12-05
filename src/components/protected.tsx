@@ -17,10 +17,8 @@ type ProtectdProps = {
 };
 const Protected = ({ children }: ProtectdProps) => {
   const session = useSession();
-  console.log("session", session);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // console.log("status", status);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSignIn = async (provider: string, isEmail?: string) => {
     try {

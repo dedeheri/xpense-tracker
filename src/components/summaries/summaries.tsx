@@ -6,8 +6,6 @@ import CardSummaries from "./card-summaries";
 const Summaries = () => {
   const { summaries, summariesLoading } = useSummariesTransaction();
 
-  console.log("summaries", summaries);
-
   return (
     <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <CardSummaries
