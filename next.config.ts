@@ -1,9 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+module.exports = {
   images: {
     domains: ["lh3.googleusercontent.com", "upload.wikimedia.org"],
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };
-
-export default nextConfig;

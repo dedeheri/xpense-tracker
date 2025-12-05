@@ -5,7 +5,7 @@ import { TransactionChart } from "@/components/transaction/transaction-chart";
 import TransactionHeading from "@/components/transaction/transaction-heading";
 
 import { Metadata } from "next";
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Chart Transaction",
   description: "Description of the Add Transaction",
@@ -20,10 +20,10 @@ const Page = ({
     <Container>
       <NetTotal />
       <Summaries />
-      {/* <TransactionHeading />
+      <TransactionHeading />
       <Suspense fallback={<div>Loading...</div>}>
         <TransactionChart searchParams={searchParams} />
-      </Suspense> */}
+      </Suspense>
     </Container>
   );
 };
