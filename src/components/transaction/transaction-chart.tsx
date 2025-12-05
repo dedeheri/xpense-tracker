@@ -10,21 +10,19 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useChartTransaction } from "@/hooks/use-transaction";
-import { useSearchParams } from "next/navigation";
 
 import { useCategory } from "@/hooks/use-category";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Loading from "../loading-and-error";
 
 export const description = "A multiple bar chart";
 
-export function TransactionChart() {
-  const searchParams = useSearchParams();
-  const categoryParams = searchParams.get("category") ?? "";
-
-  const params = {
-    category: categoryParams,
-  };
+export function TransactionChart({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string; category?: string }>;
+}) {
+  const params = use(searchParams);
 
   const { chart, chartLoading, chartMessage, chartError } =
     useChartTransaction(params);
