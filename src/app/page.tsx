@@ -18,8 +18,8 @@ const Page = () => {
     <Container>
       <NetTotal />
       <Summaries />
+      <TransactionHeading />
       <Suspense fallback={<div>Loading...</div>}>
-        <TransactionHeading />
         <TransactionTable />
       </Suspense>
     </Container>

@@ -17,7 +17,7 @@ const Page = () => {
       <NetTotal />
       <Summaries />
       <TransactionHeading />
-      <Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
         <TransactionChart />
       </Suspense>
     </Container>
