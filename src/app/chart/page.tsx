@@ -20,10 +20,10 @@ const Page = ({
     <Container>
       <NetTotal />
       <Summaries />
-      <TransactionHeading />
+      {/* <TransactionHeading />
       <Suspense fallback={<div>Loading...</div>}>
         <TransactionChart searchParams={searchParams} />
-      </Suspense>
+      </Suspense> */}
     </Container>
   );
 };
