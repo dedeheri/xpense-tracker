@@ -4,5 +4,5 @@ export {
   handlers as GET,
   handlers as POST,
   handlers as DELETE,
-  handlers as UPDATE,
+  handlers as PUT,
 };
