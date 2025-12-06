@@ -16,7 +16,7 @@ const Tooltips = ({
     <Tooltip delayDuration={300}>
       <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent>
-        <p>{label}</p>
+        <h1>{label}</h1>
       </TooltipContent>
     </Tooltip>
   );

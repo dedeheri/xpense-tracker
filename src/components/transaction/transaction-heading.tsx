@@ -71,7 +71,7 @@ const TransactionHeading = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <FilterType />
+        {/* <FilterType /> */}
         <FilterCategory />
 
         <AddTransactionSheet />

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Loading from "./loading-and-error";
+import { Button } from "./ui/button";
 
 interface DropdownAvatarProps {
   image: string | null | undefined;
@@ -29,14 +30,16 @@ const DropdownAvatar: React.FC<DropdownAvatarProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Image
-          loading="lazy"
-          src={image || "/assets/images/default_avatar.png"}
-          alt="users avatar"
-          className="rounded-full cursor-pointer"
-          width={33}
-          height={33}
-        />
+        <Button className="size-8 p-0 rounded-full" asChild>
+          <Image
+            loading="lazy"
+            src={image || "/assets/images/default_avatar.png"}
+            alt="users avatar"
+            className="!rounded-full cursor-pointer"
+            width={33}
+            height={33}
+          />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="rounded-3xl" align="end">
         <DropdownMenuLabel>

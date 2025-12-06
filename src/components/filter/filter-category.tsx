@@ -25,7 +25,7 @@ const FilterCategory = () => {
             className="rounded-full cursor-pointer h-9 w-9 md:w-auto"
           >
             <SlidersHorizontal />
-            <p className="hidden md:block">Category</p>
+            Category
           </Button>
         </PopoverTrigger>
       </Tooltips>

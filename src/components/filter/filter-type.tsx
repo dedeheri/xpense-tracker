@@ -30,7 +30,7 @@ const FilterType = () => {
             className="rounded-full cursor-pointer h-9 w-9 md:w-auto"
           >
             <Type />
-            <p className="hidden md:block">Type</p>
+            <h1 className="hidden md:block">Type</h1>
           </Button>
         </PopoverTrigger>
       </Tooltips>
