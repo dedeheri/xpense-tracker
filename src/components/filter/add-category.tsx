@@ -94,7 +94,7 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
         )}
 
         <div className=" flex space-x-1">
-          <div className="relative rounded-md h-9 w-14 border flex items-center justify-center">
+          <div className="relative rounded-md h-9  border flex items-center justify-center">
             <Tooltips label="Emoji">
               <Button
                 variant="secondary"
@@ -105,10 +105,10 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
               </Button>
             </Tooltips>
 
-            <div className="absolute top-11 left-0">
+            <div className="absolute lg:top-10 lg:-left-5 bottom-24 -right-48 z-50">
               <Emoji
-                height={400}
-                width={350}
+                height={350}
+                width={260}
                 theme={theme === "light" ? Theme.LIGHT : Theme.DARK}
                 emojiStyle={EmojiStyle.APPLE}
                 open={isEmojiPickerOpen}

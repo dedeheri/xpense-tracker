@@ -100,7 +100,7 @@ const Header = () => {
   const image = data?.user?.image;
 
   return (
-    <section className="border-b h-14">
+    <section className="h-14 fixed top-0 left-0 right-0 backdrop-blur-lg z-50">
       <div className="max-w-5xl lg:px-0 px-5 mx-auto flex items-center justify-between h-full">
         <h1 className="text-2xl font-bold font-sans">Xpense</h1>
 

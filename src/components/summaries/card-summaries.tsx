@@ -22,58 +22,56 @@ const CardSummaries = ({
   isLoading,
 }: ICardSummaries) => {
   return (
-    <Card className="!p-0 px-4 !py-4 rounded-3xl">
-      <CardContent>
-        <section className="space-y-3 md:space-y-5">
-          <div className="md:space-y-1">
-            <div className="flex items-center !justify-between">
-              <Loading isLoading={isLoading} height="h-4" width="w-20">
-                <h1 className="text-sm md:text-md text-muted-foreground">
-                  {title}
-                </h1>
-              </Loading>
+    <section className=" border p-3 md:p-4 rounded-3xl">
+      <section className="space-y-2 md:space-y-4">
+        <div>
+          <div className="flex items-center !justify-between">
+            <Loading isLoading={isLoading} height="h-4" width="w-20">
+              <h1 className="text-xs md:text-md text-muted-foreground">
+                {title}
+              </h1>
+            </Loading>
 
-              <Loading isLoading={isLoading} height="h-4" width="w-16 ">
-                <Badge
-                  variant="outline"
-                  className="h-5 min-w-5 rounded-full px-1 space-x-1 "
-                >
-                  {increase ? <TrendingUp /> : <TrendingDown />}
+            <Loading isLoading={isLoading} height="h-4" width="w-16 ">
+              <Badge
+                variant="outline"
+                className="h-5 min-w-5 rounded-full px-1 space-x-1 "
+              >
+                {increase ? <TrendingUp /> : <TrendingDown />}
 
-                  <span>{percent}%</span>
-                </Badge>
-              </Loading>
-            </div>
-
-            <Loading isLoading={isLoading} height="h-9" width="w-52">
-              <h3 className="text-xl md:text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                {numberFormatter(amount || 0)}
-              </h3>
+                <span>{percent}%</span>
+              </Badge>
             </Loading>
           </div>
 
-          <Loading isLoading={isLoading} height="h-4" width="w-48">
-            {increase ? (
-              <div className="flex items-center space-x-2">
-                <h4 className="text-sm md:text-md line-clamp-1 flex gap-2 font-medium">
-                  Up this month
-                </h4>
-
-                <TrendingUp size={18} />
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <h4 className="text-sm md:text-md line-clamp-1 flex gap-2 font-medium">
-                  Down this month
-                </h4>
-
-                <TrendingDown size={18} />
-              </div>
-            )}
+          <Loading isLoading={isLoading} height="h-9" width="w-52">
+            <h3 className="text-lg md:text-xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {numberFormatter(amount || 0)}
+            </h3>
           </Loading>
-        </section>
-      </CardContent>
-    </Card>
+        </div>
+
+        <Loading isLoading={isLoading} height="h-4" width="w-48">
+          {increase ? (
+            <div className="flex items-center space-x-2">
+              <h4 className="text-xs md:text-md line-clamp-1 flex gap-2 font-medium">
+                Up this month
+              </h4>
+
+              <TrendingUp size={18} />
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <h4 className="text-sm md:text-md line-clamp-1 flex gap-2 font-medium">
+                Down this month
+              </h4>
+
+              <TrendingDown size={18} />
+            </div>
+          )}
+        </Loading>
+      </section>
+    </section>
   );
 };
 

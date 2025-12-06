@@ -17,19 +17,22 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react";
-import { useAddTransaction } from "@/hooks/use-transaction";
+import { AlertCircleIcon } from "lucide-react";
+import { useAddTransaction, useTransaction } from "@/hooks/use-transaction";
 import { ITransactionFormData } from "@/types/transaction.types";
 import AddSelectedCategory from "./add-selected-category";
 import AddSelectedType from "./add-selected-type";
 
+import { toast } from "sonner";
+
 const AddTransactionSheet = () => {
   const {
-    transactionTrigger,
-    transactionIsError,
-    transactionMutation,
-    transactionMessage,
+    transactionAddTrigger,
+    transactionAddIsError,
+    transactionAddMutation,
+    transactionAddMessage,
   } = useAddTransaction();
+  const { transactionsMutate } = useTransaction();
 
   const [formData, setFormData] = useState<ITransactionFormData>({
     typeId: "",
@@ -37,6 +40,8 @@ const AddTransactionSheet = () => {
     note: "",
     amount: 0,
   });
+
+  const [isCloseSheet, setIsCloseSheet] = useState<boolean>(false);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -52,11 +57,26 @@ const AddTransactionSheet = () => {
   ): Promise<void> => {
     e.preventDefault();
 
-    await transactionTrigger("POST", formData);
+    const result = await transactionAddTrigger("POST", formData);
+    if (!result?.error) {
+      setFormData({
+        typeId: "",
+        categoryId: "",
+        note: "",
+        amount: 0,
+      });
+      transactionsMutate(undefined, { revalidate: true });
+      toast(result?.message);
+
+      const setIntervalId = setInterval(() => {
+        setIsCloseSheet(false);
+        clearInterval(setIntervalId);
+      }, 500);
+    }
   };
 
   return (
-    <Sheet>
+    <Sheet open={isCloseSheet} onOpenChange={setIsCloseSheet}>
       <Tooltips label="Add">
         <SheetTrigger asChild>
           <Button className="rounded-full cursor-pointer h-9 w-9 md:w-auto">
@@ -71,17 +91,10 @@ const AddTransactionSheet = () => {
         </SheetHeader>
 
         <form className="space-y-5 px-5 mt-5" onSubmit={handleOnSubmit}>
-          {transactionIsError && (
+          {transactionAddIsError && (
             <Alert variant="destructive">
               <AlertCircleIcon />
-              <AlertTitle>{transactionMessage}</AlertTitle>
-            </Alert>
-          )}
-
-          {!transactionIsError && transactionMessage && (
-            <Alert variant="default">
-              <CheckCircle2Icon />
-              <AlertTitle>{transactionMessage}</AlertTitle>
+              <AlertTitle>{transactionAddMessage}</AlertTitle>
             </Alert>
           )}
 
@@ -117,12 +130,12 @@ const AddTransactionSheet = () => {
             <div className="flex justify-end mt-5">
               <Button
                 type="submit"
-                disabled={transactionMutation}
+                disabled={transactionAddMutation}
                 variant="default"
                 size="sm"
                 className={`rounded-full cursor-pointer h-8 md:h-9`}
               >
-                {transactionMutation && (
+                {transactionAddMutation && (
                   <LoaderCircle className="animate-spin" />
                 )}
                 Submit

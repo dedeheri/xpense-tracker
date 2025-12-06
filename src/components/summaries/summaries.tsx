@@ -7,7 +7,7 @@ const Summaries = () => {
   const { summaries, summariesLoading } = useSummariesTransaction();
 
   return (
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <section className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
       <CardSummaries
         title="Income"
         increase={summaries?.income?.increase}

@@ -29,7 +29,7 @@ const FilterCategory = () => {
           </Button>
         </PopoverTrigger>
       </Tooltips>
-      <PopoverContent className="w-64 rounded-3xl p-0" align="end">
+      <PopoverContent className="w-64 rounded-3xl p-0 " align="end">
         {selectedAdd && (
           <AddCatergory handleToggleAddingMode={handleToggleAddingMode} />
         )}

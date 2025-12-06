@@ -2,6 +2,7 @@
 import Container from "@/components/container";
 import NetTotal from "@/components/net-total";
 import Summaries from "@/components/summaries/summaries";
+import TransactionCard from "@/components/transaction/transaction-card";
 
 import TransactionHeading from "@/components/transaction/transaction-heading";
 import TransactionTable from "@/components/transaction/transaction-table";
@@ -19,9 +20,7 @@ const Page = () => {
       <NetTotal />
       <Summaries />
       <TransactionHeading />
-      <Suspense fallback={<div>Loading...</div>}>
-        <TransactionTable />
-      </Suspense>
+      <TransactionTable />
     </Container>
   );
 };

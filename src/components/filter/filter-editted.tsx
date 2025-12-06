@@ -48,10 +48,6 @@ const FilterEditted = () => {
     categorysTrigger();
   }, [categorysTrigger, addDeletedCategoryMutating]);
 
-  const handleTrigger = () => {
-    categorysTrigger();
-  };
-
   return (
     <Dialog>
       <Tooltips label="Manage">
@@ -65,9 +61,9 @@ const FilterEditted = () => {
           </Button>
         </DialogTrigger>
       </Tooltips>
-      <DialogContent>
+      <DialogContent className="rounded-3xl">
         <DialogHeader>
-          <DialogTitle>Manage</DialogTitle>
+          <DialogTitle className="flex justify-start">Manage</DialogTitle>
         </DialogHeader>
 
         <LoadingAndError
@@ -91,9 +87,7 @@ const FilterEditted = () => {
             </Alert>
           )}
 
-          <Button onClick={handleTrigger}>Trigger</Button>
-
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {!categorysLoading &&
               !categorysIsError &&
               categorys?.map((category) => (

@@ -12,7 +12,7 @@ import useSWRMutation from "swr/mutation";
 
 export const useAddTransaction = () => {
   const { trigger, isMutating, data, error } = useSWRMutation(
-    ["/api/transaction"],
+    "/api/transaction",
     dynamicFetcher
   );
 
@@ -21,12 +21,12 @@ export const useAddTransaction = () => {
   };
 
   return {
-    transactionMutation: isMutating,
-    transactionData: data,
-    transactionError: error,
-    transactionMessage: data?.[0]?.message,
-    transactionIsError: data?.[0]?.error,
-    transactionTrigger: executeMutation,
+    transactionAddMutation: isMutating,
+    transactionAddData: data,
+    transactionAddError: error,
+    transactionAddMessage: data?.message,
+    transactionAddIsError: data?.error,
+    transactionAddTrigger: executeMutation,
   };
 };
 
@@ -49,7 +49,7 @@ export const useTransaction = (params?: ITransactionParams) => {
       transactionsErrorStatus: error?.status,
       transactionsError: error?.isError || error ? true : false,
       transactionsLoading: isLoading,
-      transactionsTrigger: mutate,
+      transactionsMutate: mutate,
       pages: {
         currentPage: data?.currentPage,
         totalPages: data?.totalPages,

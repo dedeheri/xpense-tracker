@@ -69,9 +69,6 @@ const TransactionTable = () => {
               <h1 className="text-md font-semibold text-muted-foreground capitalize">
                 {transaction?.date}
               </h1>
-              <h2 className="text-md font-semibold text-muted-foreground">
-                {numberFormatter(transaction?.total)}
-              </h2>
             </div>
 
             {/* table */}
@@ -91,7 +88,7 @@ const TransactionTable = () => {
                   <TableRow key={item?.id}>
                     <TableCell className="font-medium capitalize p-0  w-52">
                       <div className="flex items-center">
-                        <p>{moment(item?.createdAt).format("llll")}</p>
+                        <p>{moment(item?.createdAt).format("lll")}</p>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium capitalize">

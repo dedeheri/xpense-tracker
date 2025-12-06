@@ -53,24 +53,20 @@ export interface MutationPayload<T = unknown> {
 }
 
 export const dynamicFetcher = async (
-  urlArray: string[],
+  urlArray: string,
   { arg }: { arg: MutationPayload }
 ) => {
   const { data, method } = arg;
 
-  const fetchPromise = urlArray.map(async (url: string) => {
-    const res = await fetch(url, {
-      method: method, // Gunakan method yang diteruskan
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // Kirim data sebagai JSON string
-    });
-
-    return await res.json();
+  const res = await fetch(urlArray, {
+    method: method, // Gunakan method yang diteruskan
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data), // Kirim data sebagai JSON string
   });
 
-  return await Promise.all(fetchPromise);
+  return await res.json();
 };
 
 // export const dynamicFetcher = async <T, R>(

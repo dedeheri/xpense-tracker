@@ -22,8 +22,6 @@ const CategoryView = ({ handleToggleAddingMode }: CategoryViewProps) => {
   const params = useSearchParams();
   const categoryParams = params.get("category");
 
-  console.log({ categorysMessage });
-
   return (
     <section className=" h-full">
       {/* heading */}
