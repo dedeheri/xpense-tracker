@@ -29,7 +29,7 @@ export const useCategory = () => {
 
 export const useAddCategory = () => {
   const { trigger, isMutating, data, reset } = useSWRMutation(
-    ["/api/category"],
+    "/api/category",
     dynamicFetcher
   );
 
@@ -48,7 +48,7 @@ export const useAddCategory = () => {
 
 export const useDeletedCategory = () => {
   const { trigger, isMutating, error, data } = useSWRMutation(
-    ["/api/category"],
+    "/api/category",
     dynamicFetcher
   );
 
