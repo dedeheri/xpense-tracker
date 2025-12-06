@@ -86,7 +86,7 @@ const TransactionTable = () => {
               <TableBody>
                 {transaction?.transactions?.map((item) => (
                   <TableRow key={item?.id}>
-                    <TableCell className="font-medium capitalize p-0  w-52">
+                    <TableCell className="font-medium capitalize p-0">
                       <div className="flex items-center">
                         <p>{moment(item?.createdAt).format("lll")}</p>
                       </div>
@@ -97,7 +97,7 @@ const TransactionTable = () => {
                         <p>{item?.type?.title}</p>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium w-40">
+                    <TableCell className="font-medium">
                       <div className="flex items-center gap-2">
                         <p>{item.category?.icon}</p>
                         <p>{item.category?.title}</p>
