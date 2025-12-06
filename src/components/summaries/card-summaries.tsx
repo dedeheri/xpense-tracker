@@ -2,7 +2,6 @@
 
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { Card, CardContent } from "../ui/card";
 import numberFormatter from "@/lib/number-formatter";
 import Loading from "../loading-and-error";
 
