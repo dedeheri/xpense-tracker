@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "../ui/alert";
 import LoadingAndError from "../loading-and-error";
 import Tooltips from "../tooltips";
+import { toast } from "sonner";
 
 const FilterEditted = () => {
   const {
@@ -39,9 +40,16 @@ const FilterEditted = () => {
 
   const [selectedId, setSelectedId] = useState<string>("");
 
-  const handleOnDeleted = (id: string) => {
+  const handleOnDeleted = async (id: string) => {
     setSelectedId(id);
-    addDeletedCategoryTrigger("DELETE", { id });
+    const result = await addDeletedCategoryTrigger("DELETE", { id });
+
+    toast(result?.message, {
+      style: {
+        borderRadius: "30px",
+        height: "40px",
+      },
+    });
   };
 
   useEffect(() => {

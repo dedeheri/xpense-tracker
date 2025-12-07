@@ -14,6 +14,7 @@ import { Theme, EmojiStyle } from "emoji-picker-react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import Tooltips from "../tooltips";
+import { toast } from "sonner";
 
 const Emoji = dynamic(
   () => {
@@ -41,7 +42,7 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
   // add category form state
   const [formData, setFormData] = useState<CategoryFormData>({
     title: "",
-    icon: "🍔",
+    icon: "🙂",
   });
 
   //   toggle emoji picker
@@ -67,7 +68,25 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
       icon: formData.icon,
     };
 
-    await addCategoryTrigger("POST", newCategorys);
+    const result = await addCategoryTrigger("POST", newCategorys);
+    if (!result?.error) {
+      setFormData({
+        title: "",
+        icon: "🙂",
+      });
+
+      toast(result?.message, {
+        style: {
+          borderRadius: "30px",
+          height: "40px",
+        },
+      });
+      handleToggleAddingMode();
+
+      const setIntervalId = setInterval(() => {
+        clearInterval(setIntervalId);
+      }, 500);
+    }
   };
 
   return (
@@ -110,7 +129,7 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
                 height={350}
                 width={260}
                 theme={theme === "light" ? Theme.LIGHT : Theme.DARK}
-                emojiStyle={EmojiStyle.APPLE}
+                emojiStyle={EmojiStyle.FACEBOOK}
                 open={isEmojiPickerOpen}
                 onEmojiClick={handleEmoji}
               />

@@ -40,9 +40,9 @@ export const useAddCategory = () => {
   return {
     addCategoryMutation: isMutating,
     addCategoryTrigger: executeMutation,
-    addCategoryData: data?.[0],
+    addCategoryData: data,
     addCategoryReset: reset,
-    addCategoryError: data?.[0]?.message?.trim().length > 0 ? true : false,
+    addCategoryError: data?.message?.trim().length > 0 ? true : false,
   };
 };
 

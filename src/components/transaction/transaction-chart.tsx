@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -14,6 +14,7 @@ import { useChartTransaction } from "@/hooks/use-transaction";
 import { useCategory } from "@/hooks/use-category";
 import { use, useEffect, useState } from "react";
 import Loading from "../loading-and-error";
+import { useTheme } from "next-themes";
 
 export const description = "A multiple bar chart";
 
@@ -22,6 +23,7 @@ export function TransactionChart({
 }: {
   searchParams: Promise<{ type?: string; category?: string }>;
 }) {
+  const { theme } = useTheme();
   const params = use(searchParams);
 
   const { chart, chartLoading, chartMessage, chartError } =
@@ -79,9 +81,16 @@ export function TransactionChart({
                 <Bar
                   key={i}
                   dataKey={category.title}
-                  fill={`#ffffff`}
+                  fill={theme === "dark" ? `#ffffff` : "#000000"}
                   radius={10}
-                ></Bar>
+                >
+                  <LabelList
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
               ))}
             </BarChart>
           </ChartContainer>

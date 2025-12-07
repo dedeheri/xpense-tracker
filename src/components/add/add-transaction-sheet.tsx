@@ -66,7 +66,12 @@ const AddTransactionSheet = () => {
         amount: 0,
       });
       transactionsMutate(undefined, { revalidate: true });
-      toast(result?.message);
+      toast(result?.message, {
+        style: {
+          borderRadius: "30px",
+          height: "40px",
+        },
+      });
 
       const setIntervalId = setInterval(() => {
         setIsCloseSheet(false);

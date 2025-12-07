@@ -1,5 +1,6 @@
-'use client";';
+"use client";
 
+import { useEffect, useState } from "react";
 import Header from "./headers";
 
 type Props = {
@@ -7,6 +8,21 @@ type Props = {
 };
 
 const Container = ({ children }: Props) => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-sans flex !items-center space-x-3">
+          <p>Xpense</p>
+        </h1>
+      </div>
+    );
+  }
   return (
     <main>
       <Header />
