@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { AlertCircleIcon } from "lucide-react";
-import { useAddTransaction, useTransaction } from "@/hooks/use-transaction";
+import { useAddTransaction } from "@/hooks/use-transaction";
 import { ITransactionFormData } from "@/types/transaction.types";
 import AddSelectedCategory from "./add-selected-category";
 import AddSelectedType from "./add-selected-type";
@@ -32,7 +32,6 @@ const AddTransactionSheet = () => {
     transactionAddMutation,
     transactionAddMessage,
   } = useAddTransaction();
-  const { transactionsMutate } = useTransaction();
 
   const [formData, setFormData] = useState<ITransactionFormData>({
     typeId: "",
@@ -40,8 +39,6 @@ const AddTransactionSheet = () => {
     note: "",
     amount: 0,
   });
-
-  const [isCloseSheet, setIsCloseSheet] = useState<boolean>(false);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,7 +62,7 @@ const AddTransactionSheet = () => {
         note: "",
         amount: 0,
       });
-      transactionsMutate(undefined, { revalidate: true });
+
       toast(result?.message, {
         style: {
           borderRadius: "30px",
@@ -74,14 +71,14 @@ const AddTransactionSheet = () => {
       });
 
       const setIntervalId = setInterval(() => {
-        setIsCloseSheet(false);
+        window.location.reload();
         clearInterval(setIntervalId);
       }, 500);
     }
   };
 
   return (
-    <Sheet open={isCloseSheet} onOpenChange={setIsCloseSheet}>
+    <Sheet>
       <Tooltips label="Add">
         <SheetTrigger asChild>
           <Button className="rounded-full cursor-pointer h-9 w-9 md:w-auto">

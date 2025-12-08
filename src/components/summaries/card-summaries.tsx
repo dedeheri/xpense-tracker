@@ -21,7 +21,7 @@ const CardSummaries = ({
   isLoading,
 }: ICardSummaries) => {
   return (
-    <section className=" border p-3 md:p-4 rounded-3xl">
+    <section className=" border p-3 md:p-4 rounded-2xl md:rounded-3xl min-w-60 w-full">
       <section className="space-y-2 md:space-y-4">
         <div>
           <div className="flex items-center !justify-between">

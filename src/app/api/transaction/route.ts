@@ -184,7 +184,7 @@ export const GET = async (request: NextRequest) => {
 
     const categoryParams = searchParams.get("category");
     const typeParams = searchParams.get("type");
-    const pageParams = parseInt(searchParams.get("page") as string) || 1 - 1;
+    const pageParams = parseInt(searchParams.get("page") as string) || 1;
     const pageSize = pageParams + 1;
 
     if (pageParams < 1) {
