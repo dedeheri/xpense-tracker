@@ -1,8 +1,7 @@
-import { dynamicFetcher } from "@/lib/fetcher-swr";
+import { dynamicFetcher, standardFetcher } from "@/lib/fetcher-swr";
 import { CategoryFormData, ICategory } from "@/types/category.types";
 import { IFetcherError } from "@/types/fetcher-type";
 import { HttpMethod } from "@/types/hooks.types";
-import { standardFetchers } from "@/utils/axios";
 import { useMemo } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -10,14 +9,15 @@ import useSWRMutation from "swr/mutation";
 export const useCategory = () => {
   const { data, isLoading, error, mutate } = useSWR<ICategory, IFetcherError>(
     ["/api/category"],
-    standardFetchers
+    standardFetcher
   );
 
   const memoizedValue = useMemo(
     () => ({
       categorys: data?.data,
       categorysMessage: data?.message || error?.message,
-      categorysIsError: !data?.data?.length,
+      categorysIsError: error?.isError,
+      categorysIsStatus: error?.status,
       categorysLoading: isLoading,
       categorysTrigger: mutate,
     }),
@@ -28,7 +28,7 @@ export const useCategory = () => {
 };
 
 export const useAddCategory = () => {
-  const { trigger, isMutating, data, reset } = useSWRMutation(
+  const { trigger, isMutating, data, error } = useSWRMutation(
     "/api/category",
     dynamicFetcher
   );
@@ -36,13 +36,11 @@ export const useAddCategory = () => {
   const executeMutation = (method: HttpMethod, data: CategoryFormData) => {
     return trigger({ data, method });
   };
-
   return {
     addCategoryMutation: isMutating,
     addCategoryTrigger: executeMutation,
-    addCategoryData: data,
-    addCategoryReset: reset,
-    addCategoryError: data?.message?.trim().length > 0 ? true : false,
+    addCategoryMessage: error?.message || data?.result?.message,
+    addCategoryIsError: error?.isError || data?.isError,
   };
 };
 
@@ -59,9 +57,8 @@ export const useDeletedCategory = () => {
   return {
     addDeletedCategoryMutating: isMutating,
     addDeletedCategoryTrigger: executeMutation,
-    addDeletedCategoryData: data?.[0],
     addDeletedCategoryError: error,
-    addDeletedCategoryIsError: data?.[0]?.error,
-    addDeletedCategoryMessage: data?.[0]?.message || data?.[0]?.error,
+    addDeletedCategoryIsError: error?.isError,
+    addDeletedCategoryMessage: error?.message || data?.result?.message,
   };
 };

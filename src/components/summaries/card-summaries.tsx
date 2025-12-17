@@ -24,7 +24,7 @@ const CardSummaries = ({
     <section className=" border p-3 md:p-4 rounded-2xl md:rounded-3xl min-w-60 w-full">
       <section className="space-y-2 md:space-y-4">
         <div>
-          <div className="flex items-center !justify-between">
+          <div className="flex items-center space-y-2 !justify-between">
             <Loading isLoading={isLoading} height="h-4" width="w-20">
               <h1 className="text-xs md:text-md text-muted-foreground">
                 {title}
@@ -43,7 +43,7 @@ const CardSummaries = ({
             </Loading>
           </div>
 
-          <Loading isLoading={isLoading} height="h-9" width="w-52">
+          <Loading isLoading={isLoading} height="h-8" width="w-52">
             <h3 className="text-lg md:text-xl font-semibold tabular-nums @[250px]/card:text-3xl">
               {numberFormatter(amount || 0)}
             </h3>

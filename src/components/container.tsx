@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Header from "./headers";
+import Navlink from "./navlink";
 
 type Props = {
   children?: React.ReactNode;
@@ -26,9 +27,9 @@ const Container = ({ children }: Props) => {
   return (
     <main>
       <Header />
-      <div className="py-5 mt-14 lg:py-8 lg:px-0 px-5 max-w-5xl mx-auto space-y-5 lg:space-y-8 font-sans">
-        {children}
-      </div>
+      <section className="mt-10 py-5 lg:py-8 lg:px-2 px-5 max-w-5xl mx-auto">
+        <div className=" space-y-5 lg:space-y-8 font-sans">{children}</div>
+      </section>
     </main>
   );
 };

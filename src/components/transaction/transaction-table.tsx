@@ -14,6 +14,7 @@ import TransactionPagination from "./transaction-pagination";
 import { useSearchParams } from "next/navigation";
 import { useTransaction } from "@/hooks/use-transaction";
 import LoadingAndError from "../loading-and-error";
+import TransactionTableAction from "./transaction-table-action";
 
 const TransactionTable = () => {
   const searchParams = useSearchParams();
@@ -30,8 +31,9 @@ const TransactionTable = () => {
   const {
     transactions,
     transactionsLoading,
-    transactionsError,
+    transactionsIsError,
     transactionsMessage,
+    transactionsIsStatus,
     pages,
   } = useTransaction(params);
 
@@ -59,8 +61,9 @@ const TransactionTable = () => {
       row={5}
       height="h-10"
       width="w-full"
-      isError={transactionsError}
-      message={transactionsMessage?.error}
+      isError={transactionsIsError}
+      isStatus={transactionsIsStatus}
+      message={transactionsMessage}
     >
       <section className="space-y-6">
         {transactions?.map((transaction, index) => (
@@ -80,6 +83,7 @@ const TransactionTable = () => {
                   <TableHead>Category</TableHead>
                   <TableHead>Note</TableHead>
                   <TableHead className="text-right p-0">Amount</TableHead>
+                  {/* <TableHead className="sr-only">Action</TableHead> */}
                 </TableRow>
               </TableHeader>
 
@@ -108,9 +112,18 @@ const TransactionTable = () => {
                       {item.note}
                     </TableCell>
 
-                    <TableCell className="font-medium capitalize p-0">
+                    <TableCell className="font-medium capitalize">
                       {typeIconInOrOut(item?.type?.title, item?.amount)}
+                      {/* <div className="">aa</div> */}
                     </TableCell>
+
+                    {/* <TableCell className="w-8">
+                      <TransactionTableAction
+                        transactionId={item?.id}
+                        categoryId={item?.categoryId}
+                        typeTitle={item?.type?.title}
+                      />
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

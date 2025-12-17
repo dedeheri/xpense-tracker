@@ -9,7 +9,7 @@ import FilterCategory from "../filter/filter-category";
 import FilterType from "../filter/filter-type";
 import { usePathname, useSearchParams } from "next/navigation";
 import Tooltips from "../tooltips";
-import AddTransactionSheet from "../add/add-transaction-sheet";
+import TransactionAdd from "./transcation-add";
 
 const TransactionHeading = () => {
   const pathName = usePathname();
@@ -73,8 +73,7 @@ const TransactionHeading = () => {
       <div className="flex items-center gap-2">
         <FilterType />
         <FilterCategory />
-
-        <AddTransactionSheet />
+        <TransactionAdd />
       </div>
     </section>
   );

@@ -3,8 +3,17 @@
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { Alert, AlertTitle } from "./ui/alert";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { FolderX } from "lucide-react";
 
 interface LoadingProps {
+  isStatus?: number;
   isLoading: boolean;
   height: string;
   width: string;
@@ -16,6 +25,7 @@ interface LoadingProps {
 }
 
 const LoadingAndError = ({
+  isStatus = 200,
   isLoading,
   height,
   width,
@@ -49,6 +59,18 @@ const LoadingAndError = ({
 
   // error
   if (isError) {
+    if (isStatus === 404) {
+      return (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <FolderX />
+            </EmptyMedia>
+            <EmptyTitle>{message}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
+      );
+    }
     return (
       <div className="p-4">
         <Alert className="flex items-center justify-center ">

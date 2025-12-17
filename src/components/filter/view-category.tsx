@@ -15,8 +15,13 @@ interface CategoryViewProps {
 }
 
 const CategoryView = ({ handleToggleAddingMode }: CategoryViewProps) => {
-  const { categorys, categorysMessage, categorysLoading, categorysIsError } =
-    useCategory();
+  const {
+    categorys,
+    categorysMessage,
+    categorysLoading,
+    categorysIsError,
+    categorysIsStatus,
+  } = useCategory();
 
   const { handleSetQuery } = useQueryHandler();
   const params = useSearchParams();
@@ -46,13 +51,14 @@ const CategoryView = ({ handleToggleAddingMode }: CategoryViewProps) => {
       {/* main */}
 
       <LoadingAndError
-        height="h-8"
+        height="h-7"
         width=""
         className="px-2 py-2"
         row={4}
+        isStatus={categorysIsStatus}
         isLoading={categorysLoading}
         isError={categorysIsError}
-        message={categorysMessage?.error}
+        message={categorysMessage}
       >
         <ScrollArea className="space-y-0.5 min-h-10 h-52 max-h-52">
           {categorys?.map((category) => (

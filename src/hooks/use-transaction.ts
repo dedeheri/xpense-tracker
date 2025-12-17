@@ -5,7 +5,7 @@ import { IFetcherError } from "@/types/fetcher-type";
 import { HttpMethod } from "@/types/hooks.types";
 import { INet, ISummaries } from "@/types/summaries-types";
 import { ITransaction, ITransactionFormData } from "@/types/transaction.types";
-import { standardFetchers } from "@/utils/axios";
+
 import { useMemo } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -23,31 +23,34 @@ export const useAddTransaction = () => {
   return {
     transactionAddMutation: isMutating,
     transactionAddData: data,
-    transactionAddError: error,
-    transactionAddMessage: data?.message,
-    transactionAddIsError: data?.error,
+    transactionAddMessage: error?.message || data?.result?.message,
+    transactionAddIsError: error?.isError || data?.isError,
     transactionAddTrigger: executeMutation,
   };
 };
 
-interface ITransactionParams {
+export const useTransaction = (params: {
   category?: string;
   type?: string;
   page?: string;
-}
-
-export const useTransaction = (params?: ITransactionParams) => {
+}) => {
   const { data, isLoading, error, mutate } = useSWR<
     ITransaction,
     IFetcherError
-  >(["/api/transaction", params], standardFetchers);
+  >(["/api/transaction", params], standardFetcher);
+
+  //  targetData: data?.data,
+  // targetMessage: data?.message || error?.message,
+  // targetIsStatus: error?.status,
+  // targetIsError: error?.isError,
+  // targetIsLoading: isLoading,
 
   const memoizedValue = useMemo(
     () => ({
       transactions: data?.data,
-      transactionsMessage: error?.message,
-      transactionsErrorStatus: error?.status,
-      transactionsError: error?.isError || error ? true : false,
+      transactionsMessage: error?.message || data?.message,
+      transactionsIsStatus: error?.status,
+      transactionsIsError: error?.isError,
       transactionsLoading: isLoading,
       transactionsMutate: mutate,
       pages: {
@@ -71,12 +74,13 @@ export const useSummariesTransaction = () => {
   const memoized = useMemo(
     () => ({
       summaries: data?.data,
-      summariesMessage: error?.message,
+      summariesMessage: error?.message || data?.message,
+      summariesIsStatus: error?.status,
       summariesIsError: error?.isError,
-      summariesLoading: isLoading,
+      summariesIsLoading: isLoading,
       summariesMutate: mutate,
     }),
-    [data?.data, isLoading, error, mutate]
+    [data, isLoading, error, mutate]
   );
 
   return memoized;
@@ -88,33 +92,37 @@ export const useNetTransaction = () => {
     standardFetcher
   );
 
-  const result = {
-    net: data?.data,
-    message: error?.message,
-    isError: error?.isError,
-    isLoading: isLoading,
-    isTrigger: mutate,
-  };
+  const memoized = useMemo(
+    () => ({
+      net: data?.data,
+      netMessage: error?.message || data?.message,
+      netIsStatus: error?.status,
+      netIsError: error?.isError,
+      netLoading: isLoading,
+      netMutate: mutate,
+    }),
+    [data, isLoading, error, mutate]
+  );
 
-  return result;
+  return memoized;
 };
 
-export const useChartTransaction = (params?: ITransactionParams) => {
+export const useChartTransaction = (params: {
+  category?: string;
+  type?: string;
+  page?: string;
+}) => {
   const { data, isLoading, error, mutate } = useSWR<
     ITransaction,
     IFetcherError
-  >(["/api/transaction/chart", params], standardFetchers, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  >(["/api/transaction/chart", params], standardFetcher);
 
   const memoizedValue = useMemo(
     () => ({
       chart: data?.data,
-      chartMessage: error?.message,
+      chartMessage: error?.message || data?.message,
       chartStatus: error?.status,
-      chartError: error?.isError || error ? true : false,
+      chartError: error?.isError,
       chartLoading: isLoading,
       chartTrigger: mutate,
     }),
@@ -122,4 +130,27 @@ export const useChartTransaction = (params?: ITransactionParams) => {
   );
 
   return memoizedValue;
+};
+
+// delete transaction
+export const useDeleteTransaction = () => {
+  const { trigger, isMutating, data, error } = useSWRMutation(
+    "/api/transaction",
+    dynamicFetcher
+  );
+
+  const executeMutation = (
+    method: HttpMethod,
+    data: { transactionId: string; categoryId: string; typeTitle: string }
+  ) => {
+    return trigger({ method, data });
+  };
+
+  return {
+    transactionDeleteMutation: isMutating,
+    transactionDeleteData: data,
+    transactionDeleteMessage: error?.message || data?.result?.message,
+    transactionDeleteIsError: error?.isError || data?.isError,
+    transactionDeleteTrigger: executeMutation,
+  };
 };

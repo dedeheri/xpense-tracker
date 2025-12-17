@@ -12,24 +12,27 @@ import filterTransactionByDate from "@/utils/summaries-by-date";
 import percentSummaries from "@/utils/percent-summaries";
 import calculateIncreaseStatus from "@/utils/calculate-increase";
 import { groupTransactionsByMonth } from "@/utils/group-transactions-Month";
+import findSummaryByType from "@/utils/find-summries-by-type";
+import getCurrentMonthSummaries from "@/utils/current-month-summaries";
+import { updateAllSummaries } from "@/utils/summary-update";
 
 export const POST = async (request: NextRequest) => {
-  const { userId } = await sessions();
-  const { typeId, categoryId, amount, note } = await request.json();
-  const parsedAmount = parseInt(amount);
-
-  if (!typeId || !categoryId || !amount || !note) {
-    return NextResponse.json(
-      {
-        error: true,
-        message:
-          "Missing required fields: type, category, amount, and note are necessary.",
-      },
-      { status: 201 }
-    );
-  }
-
   try {
+    const { userId } = await sessions();
+    const { typeId, categoryId, amount, note } = await request.json();
+    const parsedAmount = parseInt(amount);
+
+    if (!typeId || !categoryId || !amount || !note) {
+      return NextResponse.json(
+        {
+          error: true,
+          message:
+            "Missing required fields: type, category, amount, and note are necessary.",
+        },
+        { status: 409 }
+      );
+    }
+
     // create transaction
     await Promise.all([
       await transactionServices.create({
@@ -166,6 +169,12 @@ export const POST = async (request: NextRequest) => {
       });
     }
 
+    // await updateAllSummaries({
+    //   userId: userId!,
+    //   typeTitle: type?.title || "",
+    //   parsedAmount,
+    // });
+
     return NextResponse.json(
       {
         message: "Transaction and Daily Summary created successfully.",
@@ -246,6 +255,85 @@ export const GET = async (request: NextRequest) => {
         currentPage: pageParams,
         totalPages: totalPages,
         totalItems: totalTransaction,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    return handleErrorPrisma(error);
+  }
+};
+
+export const DELETE = async (request: NextRequest) => {
+  try {
+    const { userId } = await sessions();
+    const body = await request.json();
+    const { transactionId, typeTitle, categoryId } = body;
+
+    //
+    const allSummaries = await summariesService.findMany({
+      where: { userId: userId! },
+    });
+
+    const monthlySummaries = getCurrentMonthSummaries(allSummaries);
+
+    const incomeExpenseSummary = findSummaryByType(monthlySummaries, typeTitle);
+    const savingSummary = findSummaryByType(monthlySummaries, "Saving");
+
+    const deletedTransaction = await transactionServices.destroy({
+      where: {
+        userId: userId!,
+        id: transactionId,
+      },
+    });
+
+    if (!deletedTransaction) {
+      return NextResponse.json(
+        { message: "Transaction not found or could not be deleted" },
+        { status: 404 }
+      );
+    }
+
+    const transactionAmount = deletedTransaction.amount ?? 0;
+
+    await categoryServices.update({
+      where: {
+        userId: userId!,
+        id: categoryId,
+      },
+      data: {
+        count: {
+          decrement: 1,
+        },
+      },
+    });
+
+    const newInExAmount =
+      (incomeExpenseSummary.amount ?? 0) - transactionAmount;
+
+    const newSavingAmount = (savingSummary.amount ?? 0) - transactionAmount;
+
+    await Promise.all([
+      await summariesService.updateOne({
+        where: {
+          id: incomeExpenseSummary.id,
+        },
+        data: {
+          amount: newInExAmount,
+        },
+      }),
+      await summariesService.updateOne({
+        where: {
+          id: savingSummary.id,
+        },
+        data: {
+          amount: newSavingAmount,
+        },
+      }),
+    ]);
+
+    return NextResponse.json(
+      {
+        message: "Successfully delete transaction",
       },
       { status: 201 }
     );

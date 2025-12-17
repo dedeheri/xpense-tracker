@@ -33,8 +33,8 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
   const {
     addCategoryTrigger,
     addCategoryMutation,
-    addCategoryData,
-    addCategoryError,
+    addCategoryIsError,
+    addCategoryMessage,
   } = useAddCategory();
 
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
@@ -68,25 +68,22 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
       icon: formData.icon,
     };
 
-    const result = await addCategoryTrigger("POST", newCategorys);
-    if (!result?.error) {
-      setFormData({
-        title: "",
-        icon: "🙂",
-      });
+    await addCategoryTrigger("POST", newCategorys)
+      .then((res) => {
+        handleToggleAddingMode();
+        setFormData({
+          title: "",
+          icon: "🙂",
+        });
 
-      toast(result?.message, {
-        style: {
-          borderRadius: "30px",
-          height: "40px",
-        },
-      });
-      handleToggleAddingMode();
-
-      const setIntervalId = setInterval(() => {
-        clearInterval(setIntervalId);
-      }, 500);
-    }
+        toast(res?.message, {
+          style: {
+            borderRadius: "30px",
+            height: "40px",
+          },
+        });
+      })
+      .catch((error) => error);
   };
 
   return (
@@ -105,10 +102,10 @@ const AddCatergory = ({ handleToggleAddingMode }: AddCategoryProps) => {
       </div>
 
       <div className="px-4 py-2 space-y-2">
-        {addCategoryError && (
+        {addCategoryIsError && (
           <Alert className="py-2.5">
             <AlertCircleIcon />
-            <AlertTitle>{addCategoryData?.message}</AlertTitle>
+            <AlertTitle>{addCategoryMessage}</AlertTitle>
           </Alert>
         )}
 

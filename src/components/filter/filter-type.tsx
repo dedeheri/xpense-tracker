@@ -49,7 +49,7 @@ const FilterType = () => {
           <LoadingAndError
             isLoading={typesLoading}
             isError={typesIsError}
-            message={typesMessage?.error}
+            message={typesMessage}
             height="h-8"
             width="w-full"
             className="px-2 py-2"

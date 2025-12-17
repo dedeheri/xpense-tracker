@@ -105,7 +105,7 @@ model Summaries {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-   @@map("summaries")
+  @@map("summaries")
 }
 
 
@@ -114,8 +114,8 @@ model Transaction {
   userId      String    @map("user_id")
   amount      Int 
   note        String?  
-  typeId      String    @map("type_id")
-  categoryId  String    @map("category_id")
+  typeId      String   @map("type_id")
+  categoryId  String   @map("category_id")
   type        Type      @relation(fields: [typeId], references: [id])
   category    Category  @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())
@@ -123,4 +123,32 @@ model Transaction {
 
   
   @@map("transactions")
+}
+
+
+model Target {
+  id                  String    @id @default(cuid()) 
+  userId              String    @map("user_id")
+  amount              Int
+  goals               Int
+  title               String
+  icon                String
+  TransactionTarget   TransactionTarget[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@map("targets")
+}
+
+
+model TransactionTarget {
+  id          String    @id @default(cuid()) 
+  userId      String    @map("user_id")
+  amount      Int
+  targetId    String   @map("target_id")
+  target      Target    @relation(fields: [targetId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("transaction_targets")
 }

@@ -26,7 +26,6 @@ const FilterEditted = () => {
   const {
     addDeletedCategoryTrigger,
     addDeletedCategoryMutating,
-    addDeletedCategoryData,
     addDeletedCategoryMessage,
     addDeletedCategoryIsError,
   } = useDeletedCategory();
@@ -42,13 +41,13 @@ const FilterEditted = () => {
 
   const handleOnDeleted = async (id: string) => {
     setSelectedId(id);
-    const result = await addDeletedCategoryTrigger("DELETE", { id });
-
-    toast(result?.message, {
-      style: {
-        borderRadius: "30px",
-        height: "40px",
-      },
+    await addDeletedCategoryTrigger("DELETE", { id }).then((res) => {
+      toast(res?.message, {
+        style: {
+          borderRadius: "30px",
+          height: "40px",
+        },
+      });
     });
   };
 
@@ -82,7 +81,7 @@ const FilterEditted = () => {
           isError={categorysIsError}
           message={categorysMessage?.error}
         >
-          {addDeletedCategoryData && (
+          {addDeletedCategoryIsError && (
             <Alert
               variant={addDeletedCategoryIsError ? "destructive" : "default"}
             >

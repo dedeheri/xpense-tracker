@@ -66,8 +66,34 @@ export const dynamicFetcher = async (
     body: JSON.stringify(data), // Kirim data sebagai JSON string
   });
 
-  return await res.json();
+  const result = await res.json();
+  if (!res.ok) {
+    throw {
+      status: res.status,
+      isError: !res.ok,
+      message: result?.message || "Internal Server Error",
+    } as IFetcherError;
+  }
+
+  return result;
 };
+
+// const json = await res.json();
+
+// if (!res.ok) {
+//   throw {
+//     status: res.status,
+//     isError: res.ok,
+//     message: json.message || "Internal Server Error",
+//   } as IFetcherError;
+// }
+
+// return {
+//   result: json,
+//   isStatus: res?.status,
+//   isError: !res.ok,
+//   message: json.message,
+// };
 
 // export const dynamicFetcher = async <T, R>(
 //   url: string,
