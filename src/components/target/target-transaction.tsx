@@ -3,9 +3,7 @@
 import TargetCard from "./target-card";
 
 const TargetTransaction = () => {
-  return <section>
-    <TargetCard />
-  </section>;
+  return <section>{/* <TargetCard /> */}</section>;
 };
 
 export default TargetTransaction;
